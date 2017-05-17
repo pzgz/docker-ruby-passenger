@@ -1,4 +1,4 @@
-FROM phusion/passenger-ruby23:latest
+FROM phusion/passenger-ruby23:0.9.20
 
 RUN apt-get update --assume-yes && apt-get install --assume-yes build-essential
 
