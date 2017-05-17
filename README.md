@@ -11,4 +11,4 @@ Based on [phusion/passenger-docker](https://github.com/phusion/passenger-docker)
 * Expose 22 for SSH access, so that capistrano can do the the deploy
 * Following env variables will be passed to nginx and Rails app: `SECRET_KEY_BASE`,  `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD`
 * Set timezone to China timezone
-
+* `sidekiq` daemon will be launched if it has been integrated in this container, the configuration file should be located as `config/sidekiq.yml`
