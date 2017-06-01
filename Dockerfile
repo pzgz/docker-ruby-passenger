@@ -1,10 +1,18 @@
-FROM phusion/passenger-ruby24:0.9.21
+FROM phusion/passenger-customizable:0.9.21
+
+# Set correct environment variables.
+ENV HOME /root
+
+# Use baseimage-docker's init process.
+CMD ["/sbin/my_init"]
 
 RUN apt-get update --assume-yes && apt-get install --assume-yes build-essential
 
 # For a JS runtime
 # http://nodejs.org/
-RUN apt-get install --assume-yes nodejs
+# RUN apt-get install --assume-yes nodejs
+RUN /pd_build/ruby-2.4.*.sh
+RUN /pd_build/nodejs.sh
 
 # For Nokogiri gem
 # http://www.nokogiri.org/tutorials/installing_nokogiri.html#ubuntu___debian
@@ -27,14 +35,8 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # timezone
 RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai  /etc/localtime
-RUN echo "Asia/Chongqing" > /etc/timezone
+RUN echo "Asia/Shanghai" > /etc/timezone
 RUN dpkg-reconfigure -f noninteractive tzdata
-
-# Set correct environment variables.
-ENV HOME /root
-
-# Use baseimage-docker's init process.
-CMD ["/sbin/my_init"]
 
 RUN rm /etc/nginx/sites-enabled/default
 ADD webapp.conf /etc/nginx/sites-enabled/webapp.conf
