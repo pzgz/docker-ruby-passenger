@@ -53,7 +53,3 @@ RUN rm -f /etc/service/sshd/down
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 WORKDIR /home/app
-
-# Add sidekiq
-RUN mkdir /etc/service/sidekiq
-ADD sidekiq.sh /etc/service/sidekiq/run
