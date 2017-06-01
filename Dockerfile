@@ -1,4 +1,4 @@
-FROM phusion/passenger-customizable:0.9.21
+FROM phusion/passenger-ruby24:0.9.21
 
 # Set correct environment variables.
 ENV HOME /root
@@ -8,11 +8,12 @@ CMD ["/sbin/my_init"]
 
 RUN apt-get update --assume-yes && apt-get install --assume-yes build-essential
 
-# For a JS runtime
-# http://nodejs.org/
-# RUN apt-get install --assume-yes nodejs
-RUN /pd_build/ruby-2.4.*.sh
-RUN /pd_build/nodejs.sh
+# Node.js support
+ADD buildconfig /tmp/buildconfig
+ADD nodejs.sh /tmp/nodejs.sh
+RUN /tmp/nodejs.sh
+RUN rm /tmp/buildconfig
+RUN rm /tmp/nodejs.sh
 
 # For Nokogiri gem
 # http://www.nokogiri.org/tutorials/installing_nokogiri.html#ubuntu___debian
