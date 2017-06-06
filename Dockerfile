@@ -15,6 +15,11 @@ RUN /tmp/nodejs.sh
 RUN rm /tmp/buildconfig
 RUN rm /tmp/nodejs.sh
 
+# Yarn support
+RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -  && \
+    echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list  && \
+    apt-get update && apt-get install yarn
+
 # For Nokogiri gem
 # http://www.nokogiri.org/tutorials/installing_nokogiri.html#ubuntu___debian
 RUN apt-get install --assume-yes libxml2-dev libxslt1-dev
