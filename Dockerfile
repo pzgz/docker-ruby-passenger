@@ -36,7 +36,7 @@ RUN apt-get install --assume-yes libxml2-dev libxslt1-dev
 RUN apt-get install --assume-yes libmagickwand-dev
 
 # zh-cn locales
-RUN apt-get install locales language-pack-zh-hans language-pack-zh-hans-base -y && \
+RUN apt-get install tzdata locales language-pack-zh-hans language-pack-zh-hans-base -y && \
     echo "zh_CN.UTF-8 UTF-8" >> /etc/locale.gen && \
     dpkg-reconfigure -f noninteractive locales && \
     echo "export LC_ALL=zh_CN.UTF-8" >> ~/.bashrc && \
