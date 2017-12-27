@@ -1,4 +1,4 @@
-FROM phusion/passenger-ruby24:0.9.23
+FROM phusion/passenger-ruby24:0.9.27
 
 # Set correct environment variables.
 ENV HOME /root
@@ -21,11 +21,11 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -  && \
     apt-get update && apt-get install yarn
 
 # Resolve the issue might caused by node-sass installation issue
-ADD linux-x64-51_binding.node /opt/linux-x64-51_binding.node
+ADD linux-x64-59_binding.node /opt/linux-x64-59_binding.node
 
 # Use taobao NPM source for YARN
 RUN yarn config set registry https://registry.npm.taobao.org
-RUN yarn config set sass-binary-path /opt/linux-x64-51_binding.node
+RUN yarn config set sass-binary-path /opt/linux-x64-59_binding.node
 
 # For Nokogiri gem
 # http://www.nokogiri.org/tutorials/installing_nokogiri.html#ubuntu___debian
