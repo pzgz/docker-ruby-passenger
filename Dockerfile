@@ -54,6 +54,8 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # REF: https://stackoverflow.com/a/39275359/100072
 ## preesed tzdata, update package index, upgrade packages and install needed software
+ENV DEBIAN_FRONTEND noninteractive
+ENV DEBCONF_NONINTERACTIVE_SEEN true
 RUN echo "tzdata tzdata/Areas select Asia" > /tmp/preseed.txt; \
     echo "tzdata tzdata/Zones/Asia select Shanghai" >> /tmp/preseed.txt; \
     debconf-set-selections /tmp/preseed.txt && \
