@@ -48,10 +48,9 @@ RUN apt-get install tzdata locales language-pack-zh-hans language-pack-zh-hans-b
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # timezone
-RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai  /etc/localtime
+RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 RUN echo "Asia/Shanghai" > /etc/timezone
-#RUN dpkg-reconfigure -f noninteractive tzdata
-RUN timedatectl set-timezone Asia/Shanghai
+RUN dpkg-reconfigure --frontend noninteractive tzdata
 
 RUN rm /etc/nginx/sites-enabled/default
 ADD webapp.conf /etc/nginx/sites-enabled/webapp.conf
