@@ -49,7 +49,7 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # timezone
 RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
-RUN echo "Asia/Shanghai" > /etc/timezone
+# RUN echo "Asia/Shanghai" > /etc/timezone
 RUN dpkg-reconfigure --frontend noninteractive tzdata
 
 RUN rm /etc/nginx/sites-enabled/default
