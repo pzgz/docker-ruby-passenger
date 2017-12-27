@@ -50,7 +50,8 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 # timezone
 RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai  /etc/localtime
 RUN echo "Asia/Shanghai" > /etc/timezone
-RUN dpkg-reconfigure -f noninteractive tzdata
+#RUN dpkg-reconfigure -f noninteractive tzdata
+RUN timedatectl set-timezone Asia/Shanghai
 
 RUN rm /etc/nginx/sites-enabled/default
 ADD webapp.conf /etc/nginx/sites-enabled/webapp.conf
