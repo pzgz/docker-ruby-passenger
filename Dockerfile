@@ -24,7 +24,7 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -  && \
 ADD linux-x64-59_binding.node /opt/linux-x64-59_binding.node
 
 # Use taobao NPM source for YARN
-# RUN yarn config set registry https://registry.npm.taobao.org
+RUN yarn config set registry https://registry.npm.taobao.org
 # RUN yarn config set sass-binary-path /opt/linux-x64-59_binding.node
 # RUN npm config set sass-binary-path /opt/linux-x64-59_binding.node
 # Fixing the stupid missing node-sass vendor directory error
