@@ -24,8 +24,11 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -  && \
 ADD linux-x64-59_binding.node /opt/linux-x64-59_binding.node
 
 # Use taobao NPM source for YARN
-RUN yarn config set registry https://registry.npm.taobao.org
-RUN yarn config set sass-binary-path /opt/linux-x64-59_binding.node
+# RUN yarn config set registry https://registry.npm.taobao.org
+# RUN yarn config set sass-binary-path /opt/linux-x64-59_binding.node
+# RUN npm config set sass-binary-path /opt/linux-x64-59_binding.node
+# Fixing the stupid missing node-sass vendor directory error
+ENV SASS_BINARY_PATH=/opt/linux-x64-59_binding.node
 
 # For Nokogiri gem
 # http://www.nokogiri.org/tutorials/installing_nokogiri.html#ubuntu___debian
@@ -47,9 +50,20 @@ RUN apt-get install tzdata locales language-pack-zh-hans language-pack-zh-hans-b
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # timezone
-RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai  /etc/localtime
-RUN echo "Asia/Shanghai" > /etc/timezone
-RUN dpkg-reconfigure -f noninteractive tzdata
+#RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+#RUN echo "Asia/Shanghai" > /etc/timezone
+#RUN dpkg-reconfigure --frontend noninteractive tzdata
+
+# REF: https://stackoverflow.com/a/39275359/100072
+## preesed tzdata, update package index, upgrade packages and install needed software
+ENV DEBIAN_FRONTEND noninteractive
+ENV DEBCONF_NONINTERACTIVE_SEEN true
+RUN echo "tzdata tzdata/Areas select Asia" > /tmp/preseed.txt; \
+    echo "tzdata tzdata/Zones/Asia select Shanghai" >> /tmp/preseed.txt; \
+    debconf-set-selections /tmp/preseed.txt && \
+    rm /etc/timezone && \
+    rm /etc/localtime && \
+    dpkg-reconfigure -f noninteractive tzdata
 
 RUN rm /etc/nginx/sites-enabled/default
 ADD webapp.conf /etc/nginx/sites-enabled/webapp.conf
