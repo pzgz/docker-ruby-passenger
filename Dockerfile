@@ -28,7 +28,7 @@ RUN yarn config set registry https://registry.npm.taobao.org
 # RUN yarn config set sass-binary-path /opt/linux-x64-59_binding.node
 # RUN npm config set sass-binary-path /opt/linux-x64-59_binding.node
 # Fixing the stupid missing node-sass vendor directory error
-# ENV SASS_BINARY_PATH=/opt/linux-x64-59_binding.node
+ENV SASS_BINARY_PATH=/opt/linux-x64-59_binding.node
 
 # For Nokogiri gem
 # http://www.nokogiri.org/tutorials/installing_nokogiri.html#ubuntu___debian
