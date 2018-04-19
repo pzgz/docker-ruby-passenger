@@ -84,3 +84,6 @@ WORKDIR /home/app
 # Add sidekiq
 RUN mkdir /etc/service/sidekiq
 ADD sidekiq.sh /etc/service/sidekiq/run
+
+# Fix issue: https://github.com/travis-ci/travis-ci/issues/8978
+RUN gem install bundler
