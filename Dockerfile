@@ -68,6 +68,8 @@ RUN echo "tzdata tzdata/Areas select Asia" > /tmp/preseed.txt; \
 RUN rm /etc/nginx/sites-enabled/default
 ADD webapp.conf /etc/nginx/sites-enabled/webapp.conf
 ADD webapp-env.conf /etc/nginx/main.d/webapp-env.conf
+# Add logrotation configuration file
+ADD rails_logs /etc/logrotate.d/rails_logs
 
 RUN rm -f /etc/service/nginx/down
 EXPOSE 80
