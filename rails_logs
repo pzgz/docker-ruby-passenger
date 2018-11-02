@@ -3,7 +3,7 @@
   dateext
   missingok
   notifempty
-  size 100M
+  maxsize 100M
   compress
   delaycompress
   rotate 60
