@@ -14,6 +14,7 @@ Based on [phusion/passenger-docker](https://github.com/phusion/passenger-docker)
 * Set timezone to China timezone
 * Use `zh_CN.UTF-8` as the locale
 * `sidekiq` daemon will be launched if it has been integrated in this container, the configuration file should be located as `config/sidekiq.yml`
+* Logs will be rotated by logrotator daily, max 100MB, and 60 retention.
 
 ## Idea
 The idea is pretty straight forward, create a container with `passenger` and `nginx` enabled, for running the Rails application. But, we will use `capistrano` for deploying, to support that, we need to allow `SSH` access to the container. So, the idea is to forward the `SSH` access to the container, so that the container can be used as a `capistrano` deployment target.

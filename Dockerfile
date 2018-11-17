@@ -21,14 +21,14 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -  && \
     apt-get update && apt-get install yarn
 
 # Resolve the issue might caused by node-sass installation issue
-ADD linux-x64-59_binding.node /opt/linux-x64-59_binding.node
+ADD linux-x64-67_binding.node /opt/linux-x64-67_binding.node
 
 # Use taobao NPM source for YARN
 RUN yarn config set registry https://registry.npm.taobao.org
-# RUN yarn config set sass-binary-path /opt/linux-x64-59_binding.node
-# RUN npm config set sass-binary-path /opt/linux-x64-59_binding.node
+# RUN yarn config set sass-binary-path /opt/linux-x64-67_binding.node
+# RUN npm config set sass-binary-path /opt/linux-x64-67_binding.node
 # Fixing the stupid missing node-sass vendor directory error
-ENV SASS_BINARY_PATH=/opt/linux-x64-59_binding.node
+ENV SASS_BINARY_PATH=/opt/linux-x64-67_binding.node
 
 # For Nokogiri gem
 # http://www.nokogiri.org/tutorials/installing_nokogiri.html#ubuntu___debian
