@@ -29,6 +29,8 @@ Why this way? Well, I tried, actually, I just love how `capistrano` works. I tri
 * Assume the database is `postgres` and the container name is `foo-psql`
 * Assume the redis server is `foo-redis`
 * We will need SSH port to be forward, assume we will forward port `22` and `80` to `20022` and `20080`
+* If we need to config nginx manuall, for main server configration, we can just map file in host to `/etc/nginx/sites-enabled/webapp.conf`, or something else in this directory. Same rule goes to nginx configuration files located in `/etc/nginx/main.d/`, for nginx HTTP configurations.
+* If we need to share same `authorized_keys` setting as the host, simply map the `/root/.ssh/authorized_keys` file
 
 ```bash
 # Create data vol
@@ -41,17 +43,11 @@ docker run --name foo -d --restart="always" \
 -e DB_USER=postgres -e DB_PASSWORD=xxxxxx \
 -e SECRET_KEY_BASE=xxxxxxxxxx \
 -v foo:/home/app \
+-v /root/.ssh/authorized_keys:/root/.ssh/authorized_keys:ro \
+-v /foo/bar/conf/webapp.conf:/etc/nginx/sites-enabled/webapp.conf:ro \
+-v /foo/bar/certs/:/etc/nginx/certs/:ro \
 -p 0.0.0.0:20022:22 -p 0.0.0.0:20080:80 \
-registry.cn-hangzhou.aliyuncs.com/pzgz/docker-ruby-passenger:ruby24-sidekiq
-
-# Generate ssh key which will be used for checking out codes
-docker exec foo ssh-keygen -f /root/.ssh/id_rsa -t rsa -N '' -C "foo-container"
-
-# Get public key from the container, copy it and set it as the deploy key on git
-docker exec foo cat /root/.ssh/id_rsa.pub
-
-# Sometimes, you might need to copy authorized keys from host to container, so that you can easily login with SSH key
-cat ~/.ssh/authorized_keys | docker exec -i foo bash -c "/bin/cat > /root/.ssh/authorized_keys"
+registry.cn-hangzhou.aliyuncs.com/pzgz/docker-ruby-passenger:v*.*.*
 
 # Then you can try the login with SSH key from your remote
 ssh root@foo.bar.com -p 20022
