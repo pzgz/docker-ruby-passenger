@@ -49,7 +49,7 @@ RUN apt-get install tzdata locales language-pack-zh-hans language-pack-zh-hans-b
     echo "export LANGUAGE=zh_CN.UTF-8" >> ~/.bashrc
 
 # Install libgeos-dev for GEOS support in RGeo gem
-RUN apt-get install --assume-yes libgeos-dev
+RUN apt-get install --assume-yes libgeos-dev libproj-dev
 
 # Clean up APT when done.
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
