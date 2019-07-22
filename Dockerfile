@@ -50,6 +50,7 @@ RUN apt-get install tzdata locales language-pack-zh-hans language-pack-zh-hans-b
 
 # Install libgeos-dev for GEOS support in RGeo gem
 RUN apt-get install --assume-yes libgeos-dev libproj-dev
+RUN ln -s /usr/lib/x86_64-linux-gnu/libgeos-3.6.2.so /usr/lib/x86_64-linux-gnu/libgeos.so
 
 # Clean up APT when done.
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
