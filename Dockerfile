@@ -48,11 +48,11 @@ RUN apt-get install tzdata locales language-pack-zh-hans language-pack-zh-hans-b
     echo "export LANG=zh_CN.UTF-8" >> ~/.bashrc && \
     echo "export LANGUAGE=zh_CN.UTF-8" >> ~/.bashrc
 
-# Clean up APT when done.
-RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
 # Install libgeos-dev for GEOS support in RGeo gem
 RUN apt-get install --assume-yes libgeos-dev
+
+# Clean up APT when done.
+RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # timezone
 #RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
