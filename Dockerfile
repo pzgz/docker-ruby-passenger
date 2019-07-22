@@ -51,6 +51,9 @@ RUN apt-get install tzdata locales language-pack-zh-hans language-pack-zh-hans-b
 # Clean up APT when done.
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
+# Install libgeos-dev for GEOS support in RGeo gem
+RUN apt-get install --assume-yes libgeos-dev
+
 # timezone
 #RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 #RUN echo "Asia/Shanghai" > /etc/timezone
