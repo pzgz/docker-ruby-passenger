@@ -1,6 +1,7 @@
-FROM registry.cn-shanghai.aliyuncs.com/laic-tech/passenger-ruby26:1.0.5
+FROM phusion/passenger-ruby26:1.0.6
 # Using own build base image for now, since official one not synced with latest github repo
 # phusion/passenger-ruby26:1.0.5
+# registry.cn-shanghai.aliyuncs.com/laic-tech/passenger-ruby26:1.0.5
 
 # Set correct environment variables.
 ENV HOME /root
