@@ -30,7 +30,8 @@ Why this way? Well, I tried, actually, I just love how `capistrano` works. I tri
 * Assume the redis server is `foo-redis`
 * We will need SSH port to be forward, assume we will forward port `22` and `80` to `20022` and `20080`
 * If we need to config nginx manuall, for main server configration, we can just map file in host to `/etc/nginx/sites-enabled/webapp.conf`, or something else in this directory. Same rule goes to nginx configuration files located in `/etc/nginx/main.d/`, for nginx HTTP configurations.
-* If we need to share same `authorized_keys` setting as the host, simply map the `/root/.ssh/authorized_keys` file
+* If we need to share same `authorized_keys` setting as the host, simply map the `/root/.ssh/authorized_keys` file, or you can also echo the public key into the container after container created, it can be done via a bash script
+* If sidekiq is not required, simply delete `/etc/service/sidekiq/run/sidekiq.sh` after the container is created, I used to manage different branches for image with or without sidekiq, but it seems just too much
 
 ```bash
 # Create data vol
@@ -55,11 +56,11 @@ ssh root@foo.bar.com -p 20022
 
 ## Branches
 
-* `ruby23`: Ruby 2.3, legacy version, no sidekiq included
-* `ruby24`: Ruby 2.4, legacy version, no sidekiq included
-* `ruby24-sidekiq`: Ruby 2.4, legacy version, sidekiq included
-* `ruby25`: Ruby 2.5, current version, no sidekiq included
-* `ruby25-sidekiq`: Ruby 2.5, current version, sidekiq included
+* ~~`ruby23`: Ruby 2.3, legacy version, no sidekiq included~~
+* ~~`ruby24`: Ruby 2.4, legacy version, no sidekiq included~~
+* ~~`ruby24-sidekiq`: Ruby 2.4, legacy version, sidekiq included~~
+* ~~`ruby25`: Ruby 2.5, current version, no sidekiq included~~
+* ~~`ruby25-sidekiq`: Ruby 2.5, current version, sidekiq included~~
 * `master`: Main stream branch, the above legacy versions won't be updated unless needed. Updates will be carried out from `master` branch, and releases will be cut by tag with naming convensino: `release-v1.2.3`
 
 ## Known Issues

@@ -1,7 +1,4 @@
-FROM phusion/passenger-ruby26:1.0.9
-# Using own build base image for now, since official one not synced with latest github repo
-# phusion/passenger-ruby26:1.0.5
-# registry.cn-shanghai.aliyuncs.com/laic-tech/passenger-ruby26:1.0.5
+FROM phusion/passenger-ruby26:1.0.11
 
 # Set correct environment variables.
 ENV HOME /root
@@ -24,14 +21,15 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -  && \
     apt-get update && apt-get install yarn
 
 # Resolve the issue might caused by node-sass installation issue
-ADD linux-x64-67_binding.node /opt/linux-x64-67_binding.node
+ADD linux-x64-83_binding.node /opt/linux-x64-83_binding.node
 
 # Use taobao NPM source for YARN
 RUN yarn config set registry https://registry.npm.taobao.org
-# RUN yarn config set sass-binary-path /opt/linux-x64-67_binding.node
-# RUN npm config set sass-binary-path /opt/linux-x64-67_binding.node
+RUN yarn config set sass_binary_site http://cdn.npm.taobao.org/dist/node-sass
+# RUN yarn config set sass-binary-path /opt/linux-x64-83_binding.node
+# RUN npm config set sass-binary-path /opt/linux-x64-83_binding.node
 # Fixing the stupid missing node-sass vendor directory error
-ENV SASS_BINARY_PATH=/opt/linux-x64-67_binding.node
+ENV SASS_BINARY_PATH=/opt/linux-x64-83_binding.node
 
 # For Nokogiri gem
 # http://www.nokogiri.org/tutorials/installing_nokogiri.html#ubuntu___debian
@@ -40,6 +38,9 @@ RUN apt-get install --assume-yes libxml2-dev libxslt1-dev
 # For RMagick gem
 # https://help.ubuntu.com/community/ImageMagick
 RUN apt-get install --assume-yes libmagickwand-dev
+
+# Install vips
+RUN apt-get install -y libvips-dev
 
 # zh-cn locales
 RUN apt-get install tzdata locales language-pack-zh-hans language-pack-zh-hans-base -y && \
