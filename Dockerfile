@@ -37,7 +37,7 @@ RUN apt-get install --assume-yes libxml2-dev libxslt1-dev
 
 # For RMagick gem
 # https://help.ubuntu.com/community/ImageMagick
-RUN apt-get install --assume-yes libmagickwand-dev
+RUN apt-get install --assume-yes imagemagick
 
 # Install vips
 RUN apt-get install -y libvips-dev
