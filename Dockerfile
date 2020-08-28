@@ -18,7 +18,7 @@ RUN rm /tmp/nodejs.sh
 # Yarn support
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -  && \
     echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list  && \
-    apt-get update && apt-get install yarn
+    rm -r /var/lib/apt/lists/* && apt-get update && apt-get install yarn
 
 # Resolve the issue might caused by node-sass installation issue
 ADD linux-x64-83_binding.node /opt/linux-x64-83_binding.node
@@ -39,7 +39,7 @@ RUN apt-get install --assume-yes libxml2-dev libxslt1-dev
 # https://help.ubuntu.com/community/ImageMagick
 RUN apt-get install --assume-yes imagemagick
 
-# Install vips
+# Install vips, this not good right now, it will install libvips 8.4, which is not enough for current image_processing gem, TODO
 RUN apt-get install -y libvips-dev
 
 # zh-cn locales
@@ -53,9 +53,6 @@ RUN apt-get install tzdata locales language-pack-zh-hans language-pack-zh-hans-b
 # Install libgeos-dev for GEOS support in RGeo gem
 RUN apt-get install --assume-yes libgeos-dev libproj-dev
 RUN ln -s /usr/lib/x86_64-linux-gnu/libgeos-3.6.2.so /usr/lib/x86_64-linux-gnu/libgeos.so
-
-# Clean up APT when done.
-RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # timezone
 #RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
