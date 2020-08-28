@@ -40,7 +40,7 @@ RUN apt-get install --assume-yes libxml2-dev libxslt1-dev
 RUN apt-get install --assume-yes imagemagick
 
 # Install vips, this not good right now, it will install libvips 8.4, which is not enough for current image_processing gem, TODO
-RUN apt-get install -y libvips-dev
+# RUN apt-get install -y libvips-dev
 
 # zh-cn locales
 RUN apt-get install tzdata locales language-pack-zh-hans language-pack-zh-hans-base -y && \
