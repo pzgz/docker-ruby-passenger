@@ -54,6 +54,14 @@ RUN apt-get install tzdata locales language-pack-zh-hans language-pack-zh-hans-b
 RUN apt-get install --assume-yes libgeos-dev libproj-dev
 RUN ln -s /usr/lib/x86_64-linux-gnu/libgeos-3.6.2.so /usr/lib/x86_64-linux-gnu/libgeos.so
 
+# Install ffmpeg
+RUN apt-get install --assume-yes ffmpeg
+
+# Install mupdf
+RUN add-apt-repository ppa:ubuntuhandbook1/apps && \
+    apt-get update && \
+    apt-get install mupdf mupdf-tools
+
 # timezone
 #RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 #RUN echo "Asia/Shanghai" > /etc/timezone
