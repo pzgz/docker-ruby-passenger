@@ -1,4 +1,4 @@
-FROM phusion/passenger-ruby26:1.0.11
+FROM phusion/passenger-ruby27:1.0.12
 
 # Set correct environment variables.
 ENV HOME /root
@@ -39,8 +39,8 @@ RUN apt-get install --assume-yes libxml2-dev libxslt1-dev
 # https://help.ubuntu.com/community/ImageMagick
 RUN apt-get install --assume-yes imagemagick
 
-# Install vips, this not good right now, it will install libvips 8.4, which is not enough for current image_processing gem, TODO
-# RUN apt-get install -y libvips-dev
+# Install vips
+RUN apt-get install -y libvips-dev
 
 # zh-cn locales
 RUN apt-get install tzdata locales language-pack-zh-hans language-pack-zh-hans-base -y && \
@@ -101,4 +101,4 @@ RUN mkdir /etc/service/sidekiq
 ADD sidekiq.sh /etc/service/sidekiq/run
 
 # Fix issue: https://github.com/travis-ci/travis-ci/issues/8978
-RUN gem install bundler
+# RUN gem install bundler
