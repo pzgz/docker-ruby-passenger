@@ -21,7 +21,7 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -  && \
     rm -r /var/lib/apt/lists/* && apt-get update && apt-get install yarn
 
 # Resolve the issue might caused by node-sass installation issue
-ADD linux-x64-92_binding.node /opt/linux-x64-92_binding.node
+ADD linux-x64-93_binding.node /opt/linux-x64-93_binding.node
 ADD linux-x64-102_binding.node /opt/linux-x64-102_binding.node
 ADD linux-x64-83_binding.node /opt/linux-x64-83_binding.node
 
