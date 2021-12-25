@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-source /pd_build/buildconfig
+source /tmp/buildconfig
 set -x
 
 echo "+ Enabling Node Source APT repo"
