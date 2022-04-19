@@ -62,7 +62,7 @@ RUN apt-get install --assume-yes ffmpeg
 # Install mupdf
 RUN add-apt-repository -y ppa:savoury1/backports && \
     apt-get update && \
-    apt-get install --assume-yes jbig2dec mupdf mupdf-tools
+    apt-get install --assume-yes mupdf mupdf-tools
 
 # timezone
 #RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
