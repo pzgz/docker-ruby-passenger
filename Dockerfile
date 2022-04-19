@@ -60,9 +60,9 @@ RUN ln -s /usr/lib/x86_64-linux-gnu/libgeos-3.6.2.so /usr/lib/x86_64-linux-gnu/l
 RUN apt-get install --assume-yes ffmpeg
 
 # Install mupdf
-RUN add-apt-repository ppa:ubuntuhandbook1/apps && \
+RUN add-apt-repository ppa:savoury1/backports && \
     apt-get update && \
-    apt-get install mupdf mupdf-tools
+    apt-get install jbig2dec mupdf mupdf-tools
 
 # timezone
 #RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
