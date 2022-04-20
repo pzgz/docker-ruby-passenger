@@ -60,9 +60,12 @@ RUN ln -s /usr/lib/x86_64-linux-gnu/libgeos-3.6.2.so /usr/lib/x86_64-linux-gnu/l
 RUN apt-get install --assume-yes ffmpeg
 
 # Install mupdf
-RUN add-apt-repository -y ppa:savoury1/backports && \
-    apt-get update && \
-    apt-get install --assume-yes mupdf mupdf-tools
+# RUN add-apt-repository -y ppa:savoury1/backports && \
+#     apt-get update && \
+#     apt-get install --assume-yes mupdf mupdf-tools
+# For mupdf, copy v 1.19.1 to /usr/local/bin, since the default version is too old and installed one has head/lib incompatible issue.
+ADD mutool /usr/local/bin/mutool
+ADD muraster /usr/local/bin/muraster
 
 # timezone
 #RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
