@@ -11,7 +11,7 @@ echo 'deb-src https://deb.nodesource.com/node_9.x xenial main' >> /etc/apt/sourc
 ## Install Node.js (also needed for Rails asset compilation)
 minimal_apt_get_install nodejs
 echo "+ Updating npm"
-run npm update npm -g
+# run npm update npm -g
 if [[ ! -e /usr/bin/node ]]; then
   ln -s /usr/bin/nodejs /usr/bin/node
 fi
