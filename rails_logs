@@ -1,0 +1,12 @@
+/home/app/shared/log/*.log {
+  daily
+  dateext
+  missingok
+  notifempty
+  maxsize 100M
+  compress
+  delaycompress
+  rotate 60
+  copytruncate
+  create 0664 app app
+}

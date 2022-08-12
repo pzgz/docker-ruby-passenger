@@ -1,7 +1,7 @@
 export LC_ALL=C
 export DEBIAN_FRONTEND=noninteractive
 
-DEFAULT_RUBY_GEMS='rake bundler rack'
+DEFAULT_RUBY_GEMS='rake rack'
 
 if perl -v >/dev/null 2>/dev/null; then
   RESET=`perl -e 'print("\e[0m")'`
@@ -48,6 +48,6 @@ function create_rvm_wrapper_script()
   local command="$3"
   echo "+ Creating /usr/bin/$name"
   echo '#!/bin/sh' >> "/usr/bin/$name"
-  echo exec /usr/local/rvm/bin/rvm-exec "$rvm_id" "$command" '"$@"' >> "/usr/bin/$name"
+  echo exec "/usr/local/rvm/wrappers/$rvm_id/$command" '"$@"' >> "/usr/bin/$name"
   chmod +x "/usr/bin/$name"
 }

@@ -18,17 +18,20 @@ RUN rm /tmp/nodejs.sh
 # Yarn support
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -  && \
     echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list  && \
-    apt-get update && apt-get install yarn
+    rm -r /var/lib/apt/lists/* && apt-get update && apt-get install yarn
 
 # Resolve the issue might caused by node-sass installation issue
-ADD linux-x64-59_binding.node /opt/linux-x64-59_binding.node
+ADD linux-x64-93_binding.node /opt/linux-x64-93_binding.node
+ADD linux-x64-102_binding.node /opt/linux-x64-102_binding.node
+ADD linux-x64-83_binding.node /opt/linux-x64-83_binding.node
 
 # Use taobao NPM source for YARN
 RUN yarn config set registry https://registry.npm.taobao.org
-# RUN yarn config set sass-binary-path /opt/linux-x64-59_binding.node
-# RUN npm config set sass-binary-path /opt/linux-x64-59_binding.node
+RUN yarn config set sass_binary_site http://cdn.npm.taobao.org/dist/node-sass
+# RUN yarn config set sass-binary-path /opt/linux-x64-83_binding.node
+# RUN npm config set sass-binary-path /opt/linux-x64-83_binding.node
 # Fixing the stupid missing node-sass vendor directory error
-ENV SASS_BINARY_PATH=/opt/linux-x64-59_binding.node
+ENV SASS_BINARY_PATH=/opt/linux-x64-83_binding.node
 
 # For Nokogiri gem
 # http://www.nokogiri.org/tutorials/installing_nokogiri.html#ubuntu___debian
@@ -36,7 +39,10 @@ RUN apt-get install --assume-yes libxml2-dev libxslt1-dev
 
 # For RMagick gem
 # https://help.ubuntu.com/community/ImageMagick
-RUN apt-get install --assume-yes libmagickwand-dev
+RUN apt-get install --assume-yes imagemagick
+
+# Install vips
+RUN apt-get install -y libvips-dev
 
 # zh-cn locales
 RUN apt-get install tzdata locales language-pack-zh-hans language-pack-zh-hans-base -y && \
@@ -46,8 +52,20 @@ RUN apt-get install tzdata locales language-pack-zh-hans language-pack-zh-hans-b
     echo "export LANG=zh_CN.UTF-8" >> ~/.bashrc && \
     echo "export LANGUAGE=zh_CN.UTF-8" >> ~/.bashrc
 
-# Clean up APT when done.
-RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+# Install libgeos-dev for GEOS support in RGeo gem
+RUN apt-get install --assume-yes libgeos-dev libproj-dev
+RUN ln -s /usr/lib/x86_64-linux-gnu/libgeos-3.6.2.so /usr/lib/x86_64-linux-gnu/libgeos.so
+
+# Install ffmpeg
+RUN apt-get install --assume-yes ffmpeg
+
+# Install mupdf
+# RUN add-apt-repository -y ppa:savoury1/backports && \
+#     apt-get update && \
+#     apt-get install --assume-yes mupdf mupdf-tools
+# For mupdf, copy v 1.19.1 to /usr/local/bin, since the default version is too old and installed one has head/lib incompatible issue.
+ADD mutool /usr/local/bin/mutool
+ADD muraster /usr/local/bin/muraster
 
 # timezone
 #RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
@@ -68,6 +86,8 @@ RUN echo "tzdata tzdata/Areas select Asia" > /tmp/preseed.txt; \
 RUN rm /etc/nginx/sites-enabled/default
 ADD webapp.conf /etc/nginx/sites-enabled/webapp.conf
 ADD webapp-env.conf /etc/nginx/main.d/webapp-env.conf
+# Add logrotation configuration file
+ADD rails_logs /etc/logrotate.d/rails_logs
 
 RUN rm -f /etc/service/nginx/down
 EXPOSE 80
@@ -86,4 +106,4 @@ RUN mkdir /etc/service/sidekiq
 ADD sidekiq.sh /etc/service/sidekiq/run
 
 # Fix issue: https://github.com/travis-ci/travis-ci/issues/8978
-RUN gem install bundler
+# RUN gem install bundler

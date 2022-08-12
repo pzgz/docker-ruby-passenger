@@ -14,6 +14,7 @@ Based on [phusion/passenger-docker](https://github.com/phusion/passenger-docker)
 * Set timezone to China timezone
 * Use `zh_CN.UTF-8` as the locale
 * `sidekiq` daemon will be launched if it has been integrated in this container, the configuration file should be located as `config/sidekiq.yml`
+* Logs will be rotated by logrotator daily, max 100MB, and 60 retention.
 
 ## Idea
 The idea is pretty straight forward, create a container with `passenger` and `nginx` enabled, for running the Rails application. But, we will use `capistrano` for deploying, to support that, we need to allow `SSH` access to the container. So, the idea is to forward the `SSH` access to the container, so that the container can be used as a `capistrano` deployment target.
@@ -28,6 +29,9 @@ Why this way? Well, I tried, actually, I just love how `capistrano` works. I tri
 * Assume the database is `postgres` and the container name is `foo-psql`
 * Assume the redis server is `foo-redis`
 * We will need SSH port to be forward, assume we will forward port `22` and `80` to `20022` and `20080`
+* If we need to config nginx manuall, for main server configration, we can just map file in host to `/etc/nginx/sites-enabled/webapp.conf`, or something else in this directory. Same rule goes to nginx configuration files located in `/etc/nginx/main.d/`, for nginx HTTP configurations.
+* If we need to share same `authorized_keys` setting as the host, simply map the `/root/.ssh/authorized_keys` file, or you can also echo the public key into the container after container created, it can be done via a bash script
+* If sidekiq is not required, simply delete `/etc/service/sidekiq/run/sidekiq.sh` after the container is created, I used to manage different branches for image with or without sidekiq, but it seems just too much
 
 ```bash
 # Create data vol
@@ -40,21 +44,24 @@ docker run --name foo -d --restart="always" \
 -e DB_USER=postgres -e DB_PASSWORD=xxxxxx \
 -e SECRET_KEY_BASE=xxxxxxxxxx \
 -v foo:/home/app \
+-v /root/.ssh/authorized_keys:/root/.ssh/authorized_keys:ro \
+-v /foo/bar/conf/webapp.conf:/etc/nginx/sites-enabled/webapp.conf:ro \
+-v /foo/bar/certs/:/etc/nginx/certs/:ro \
 -p 0.0.0.0:20022:22 -p 0.0.0.0:20080:80 \
-registry.cn-hangzhou.aliyuncs.com/pzgz/docker-ruby-passenger:ruby24-sidekiq
-
-# Generate ssh key which will be used for checking out codes
-docker exec foo ssh-keygen -f /root/.ssh/id_rsa -t rsa -N '' -C "foo-container"
-
-# Get public key from the container, copy it and set it as the deploy key on git
-docker exec foo cat /root/.ssh/id_rsa.pub
-
-# Sometimes, you might need to copy authorized keys from host to container, so that you can easily login with SSH key
-cat ~/.ssh/authorized_keys | docker exec -i foo bash -c "/bin/cat > /root/.ssh/authorized_keys"
+registry.cn-hangzhou.aliyuncs.com/pzgz/docker-ruby-passenger:v*.*.*
 
 # Then you can try the login with SSH key from your remote
 ssh root@foo.bar.com -p 20022
 ```
+
+## Branches
+
+* ~~`ruby23`: Ruby 2.3, legacy version, no sidekiq included~~
+* ~~`ruby24`: Ruby 2.4, legacy version, no sidekiq included~~
+* ~~`ruby24-sidekiq`: Ruby 2.4, legacy version, sidekiq included~~
+* ~~`ruby25`: Ruby 2.5, current version, no sidekiq included~~
+* ~~`ruby25-sidekiq`: Ruby 2.5, current version, sidekiq included~~
+* `master`: Main stream branch, the above legacy versions won't be updated unless needed. Updates will be carried out from `master` branch, and releases will be cut by tag with naming convensino: `release-v1.2.3`
 
 ## Known Issues
 
