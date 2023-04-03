@@ -1,4 +1,4 @@
-FROM phusion/passenger-ruby31:2.3.0
+FROM phusion/passenger-ruby32:2.5.0
 
 # Set correct environment variables.
 ENV HOME /root
@@ -21,9 +21,10 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -  && \
     rm -r /var/lib/apt/lists/* && apt-get update && apt-get install yarn
 
 # Resolve the issue might caused by node-sass installation issue
-ADD linux-x64-93_binding.node /opt/linux-x64-93_binding.node
-ADD linux-x64-102_binding.node /opt/linux-x64-102_binding.node
 ADD linux-x64-83_binding.node /opt/linux-x64-83_binding.node
+ADD linux-x64-93_binding.node /opt/linux-x64-93_binding.node
+ADD linux-x64-108_binding.node /opt/linux-x64-108_binding.node
+ADD linux-x64-111_binding.node /opt/linux-x64-111_binding.node
 
 # Use taobao NPM source for YARN
 RUN yarn config set registry https://registry.npm.taobao.org
