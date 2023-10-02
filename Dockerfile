@@ -1,4 +1,4 @@
-FROM phusion/passenger-ruby32:2.5.0
+FROM phusion/passenger-ruby32:2.5.1
 
 # Set correct environment variables.
 ENV HOME /root
@@ -55,7 +55,7 @@ RUN apt-get install tzdata locales language-pack-zh-hans language-pack-zh-hans-b
 
 # Install libgeos-dev for GEOS support in RGeo gem
 RUN apt-get install --assume-yes libgeos-dev libproj-dev
-RUN ln -s /usr/lib/x86_64-linux-gnu/libgeos-3.6.2.so /usr/lib/x86_64-linux-gnu/libgeos.so
+# RUN ln -s /usr/lib/x86_64-linux-gnu/libgeos-3.8.0.so /usr/lib/x86_64-linux-gnu/libgeos.so
 
 # Install ffmpeg
 RUN apt-get install --assume-yes ffmpeg
