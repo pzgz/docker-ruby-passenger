@@ -1,4 +1,4 @@
-FROM phusion/passenger-ruby32:2.5.1
+FROM phusion/passenger-ruby32:3.0.3
 
 # Set correct environment variables.
 ENV HOME /root
@@ -25,14 +25,15 @@ ADD linux-x64-83_binding.node /opt/linux-x64-83_binding.node
 ADD linux-x64-93_binding.node /opt/linux-x64-93_binding.node
 ADD linux-x64-108_binding.node /opt/linux-x64-108_binding.node
 ADD linux-x64-111_binding.node /opt/linux-x64-111_binding.node
+ADD linux-x64-115_binding.node /opt/linux-x64-115_binding.node
 
 # Use taobao NPM source for YARN
-RUN yarn config set registry https://registry.npm.taobao.org
-RUN yarn config set sass_binary_site http://cdn.npm.taobao.org/dist/node-sass
+RUN yarn config set registry https://registry.npmmirror.com
+RUN yarn config set sass_binary_site https://npmmirror.com/mirrors/node-sass/
 # RUN yarn config set sass-binary-path /opt/linux-x64-83_binding.node
 # RUN npm config set sass-binary-path /opt/linux-x64-83_binding.node
 # Fixing the stupid missing node-sass vendor directory error
-ENV SASS_BINARY_PATH=/opt/linux-x64-83_binding.node
+ENV SASS_BINARY_PATH=/opt/linux-x64-115_binding.node
 
 # For Nokogiri gem
 # http://www.nokogiri.org/tutorials/installing_nokogiri.html#ubuntu___debian
