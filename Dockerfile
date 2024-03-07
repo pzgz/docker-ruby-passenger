@@ -1,4 +1,4 @@
-FROM phusion/passenger-ruby32:3.0.3
+FROM phusion/passenger-ruby33:3.0.3
 
 # Set correct environment variables.
 ENV HOME /root
