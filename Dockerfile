@@ -1,4 +1,4 @@
-FROM phusion/passenger-ruby33:3.0.2
+FROM phusion/passenger-customizable:3.0.2
 
 # Set correct environment variables.
 ENV HOME /root
@@ -9,11 +9,18 @@ CMD ["/sbin/my_init"]
 RUN apt-get update --assume-yes && apt-get install --assume-yes build-essential
 
 # Node.js support
-ADD buildconfig /tmp/buildconfig
-ADD nodejs.sh /tmp/nodejs.sh
-RUN /tmp/nodejs.sh
-RUN rm /tmp/buildconfig
-RUN rm /tmp/nodejs.sh
+# ADD buildconfig /tmp/buildconfig
+# ADD nodejs.sh /tmp/nodejs.sh
+# RUN /tmp/nodejs.sh 18
+# RUN /tmp/nodejs.sh
+# RUN rm /tmp/buildconfig
+# RUN rm /tmp/nodejs.sh
+RUN /pd_build/nodejs.sh 18
+RUN /pd_build/nodejs.sh 20
+
+# Ruby support
+RUN /pd_build/ruby-3.2.3.sh
+RUN /pd_build/ruby-3.3.0.sh
 
 # Yarn support
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -  && \
@@ -21,9 +28,9 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -  && \
     rm -r /var/lib/apt/lists/* && apt-get update && apt-get install yarn
 
 # Resolve the issue might caused by node-sass installation issue
-ADD linux-x64-83_binding.node /opt/linux-x64-83_binding.node
-ADD linux-x64-93_binding.node /opt/linux-x64-93_binding.node
-ADD linux-x64-108_binding.node /opt/linux-x64-108_binding.node
+# ADD linux-x64-83_binding.node /opt/linux-x64-83_binding.node
+# ADD linux-x64-93_binding.node /opt/linux-x64-93_binding.node
+# ADD linux-x64-108_binding.node /opt/linux-x64-108_binding.node
 ADD linux-x64-111_binding.node /opt/linux-x64-111_binding.node
 ADD linux-x64-115_binding.node /opt/linux-x64-115_binding.node
 
