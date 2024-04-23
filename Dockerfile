@@ -75,6 +75,7 @@ RUN apt-get install --assume-yes ffmpeg
 # For mupdf, copy v 1.19.1 to /usr/local/bin, since the default version is too old and installed one has head/lib incompatible issue.
 ADD mutool /usr/local/bin/mutool
 ADD muraster /usr/local/bin/muraster
+ADD libcrypto.so.1.1 /usr/lib/x86_64-linux-gnu/libcrypto.so.1.1
 
 # timezone
 #RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
