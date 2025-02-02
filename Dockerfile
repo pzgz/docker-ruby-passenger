@@ -22,23 +22,21 @@ RUN /pd_build/nodejs.sh 20
 # RUN /pd_build/ruby-3.2.3.sh
 RUN /pd_build/ruby-3.3.0.sh
 
+# Bun support
+RUN curl -fsSL https://bun.sh/install | bash
+
 # Yarn support
-RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -  && \
-    echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list  && \
-    rm -r /var/lib/apt/lists/* && apt-get update && apt-get install yarn
+# RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -  && \
+#     echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list  && \
+#     rm -r /var/lib/apt/lists/* && apt-get update && apt-get install yarn
 
 # Resolve the issue might caused by node-sass installation issue
-# ADD linux-x64-83_binding.node /opt/linux-x64-83_binding.node
-# ADD linux-x64-93_binding.node /opt/linux-x64-93_binding.node
-# ADD linux-x64-108_binding.node /opt/linux-x64-108_binding.node
 ADD linux-x64-111_binding.node /opt/linux-x64-111_binding.node
 ADD linux-x64-115_binding.node /opt/linux-x64-115_binding.node
 
 # Use taobao NPM source for YARN
-RUN yarn config set registry https://registry.npmmirror.com
-RUN yarn config set sass_binary_site https://npmmirror.com/mirrors/node-sass/
-# RUN yarn config set sass-binary-path /opt/linux-x64-83_binding.node
-# RUN npm config set sass-binary-path /opt/linux-x64-83_binding.node
+# RUN yarn config set registry https://mirrors.tencent.com/npm/
+# RUN yarn config set sass_binary_site https://npmmirror.com/mirrors/node-sass/
 # Fixing the stupid missing node-sass vendor directory error
 ENV SASS_BINARY_PATH=/opt/linux-x64-115_binding.node
 
