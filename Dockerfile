@@ -1,4 +1,4 @@
-FROM phusion/passenger-customizable:3.0.2
+FROM phusion/passenger-customizable:3.1.0
 
 # Set correct environment variables.
 ENV HOME /root
@@ -16,11 +16,10 @@ RUN apt-get update --assume-yes && apt-get install --assume-yes build-essential 
 # RUN rm /tmp/buildconfig
 # RUN rm /tmp/nodejs.sh
 # RUN /pd_build/nodejs.sh 18
-RUN /pd_build/nodejs.sh 20
+RUN /pd_build/nodejs.sh 22
 
 # Ruby support
-# RUN /pd_build/ruby-3.2.3.sh
-RUN /pd_build/ruby-3.3.0.sh
+RUN /pd_build/ruby-3.3.6.sh
 
 # Bun support
 RUN curl -fsSL https://bun.sh/install | bash
