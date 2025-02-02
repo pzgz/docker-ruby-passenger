@@ -6,7 +6,7 @@ ENV HOME /root
 # Use baseimage-docker's init process.
 CMD ["/sbin/my_init"]
 
-RUN apt-get update --assume-yes && apt-get install --assume-yes build-essential
+RUN apt-get update --assume-yes && apt-get install --assume-yes build-essential unzip
 
 # Node.js support
 # ADD buildconfig /tmp/buildconfig
