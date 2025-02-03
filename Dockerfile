@@ -22,7 +22,7 @@ RUN /pd_build/nodejs.sh 22
 RUN /pd_build/ruby-3.3.6.sh
 
 # PNPM support
-RUN wget -qO- https://get.pnpm.io/install.sh | ENV="$HOME/.bashrc" SHELL="$(which bash)" bash -
+wget -qO- https://get.pnpm.io/install.sh | ENV="$HOME/.shrc" SHELL="$(which sh)" sh -
 
 # Yarn support
 # RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -  && \
