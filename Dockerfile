@@ -21,8 +21,8 @@ RUN /pd_build/nodejs.sh 22
 # Ruby support
 RUN /pd_build/ruby-3.3.6.sh
 
-# Bun support
-RUN curl -fsSL https://bun.sh/install | bash
+# PNPM support
+RUN wget -qO- https://get.pnpm.io/install.sh | ENV="$HOME/.bashrc" SHELL="$(which bash)" bash -
 
 # Yarn support
 # RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -  && \
@@ -34,7 +34,7 @@ ADD linux-x64-111_binding.node /opt/linux-x64-111_binding.node
 ADD linux-x64-115_binding.node /opt/linux-x64-115_binding.node
 
 # Use taobao NPM source for YARN
-# RUN yarn config set registry https://mirrors.tencent.com/npm/
+RUN pnpm config set registry https://mirrors.tencent.com/npm/
 # RUN yarn config set sass_binary_site https://npmmirror.com/mirrors/node-sass/
 # Fixing the stupid missing node-sass vendor directory error
 ENV SASS_BINARY_PATH=/opt/linux-x64-115_binding.node
