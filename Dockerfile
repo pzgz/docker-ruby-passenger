@@ -29,15 +29,14 @@ RUN /pd_build/ruby-3.3.6.sh
 # Use taobao NPM source
 RUN npm config set registry https://mirrors.tencent.com/npm/
 
-# PNPM support
+# PNPM support, with turborepo support
 # https://github.com/nodejs/corepack/issues/612
 ENV COREPACK_INTEGRITY_KEYS='{"npm":[{"expires":"2025-01-29T00:00:00.000Z","keyid":"SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA","keytype":"ecdsa-sha2-nistp256","scheme":"ecdsa-sha2-nistp256","key":"MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE1Olb3zMAFFxXKHiIkQO5cJ3Yhl5i6UPp+IhuteBJbuHcA5UogKo0EWtlWwW6KSaKoTNEYL7JlCQiVnkhBktUgg=="},{"expires":null,"keyid":"SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U","keytype":"ecdsa-sha2-nistp256","scheme":"ecdsa-sha2-nistp256","key":"MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEY6Ya7W++7aUPzvMTrezH6Ycx3c+HOKYCcNGybJZSCJq/fd7Qa8uuAKtdIkUQtQiEKERhAmE5lMMJhP8OkDOa2g=="}]}'    
 SHELL ["/bin/bash", "-c"]
 RUN npm install -g --force pnpm@latest-10 \
     && SHELL=bash pnpm setup \
     && source /root/.bashrc
-# Adding turborepo support
-RUN pnpm install turbo --global
+    && pnpm install turbo --global
 
 # Fixing the stupid missing node-sass vendor directory error
 ENV SASS_BINARY_PATH=/opt/linux-x64-115_binding.node
