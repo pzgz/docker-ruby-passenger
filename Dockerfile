@@ -22,7 +22,8 @@ RUN /pd_build/nodejs.sh 22
 RUN /pd_build/ruby-3.3.6.sh
 
 # PNPM support
-RUN curl -fsSL https://get.pnpm.io/install.sh | env PNPM_VERSION=10.1.0 sh -
+ENV PNPM_VERSION 10.1.0
+RUN curl -fsSL https://get.pnpm.io/install.sh | ENV="$HOME/.shrc" SHELL="$(which sh)" sh -
 
 # Yarn support
 # RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -  && \
