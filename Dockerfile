@@ -36,8 +36,6 @@ SHELL ["/bin/bash", "-c"]
 RUN npm install -g --force pnpm@latest-10 \
     && SHELL=bash pnpm setup \
     && source /root/.bashrc
-# configures the required global directories for pnpm
-RUN pnpm setup
 # Adding turborepo support
 RUN pnpm install turbo --global
 
