@@ -28,7 +28,6 @@ RUN /pd_build/ruby-3.3.6.sh
 
 # Use taobao NPM source
 RUN npm config set registry https://mirrors.tencent.com/npm/
-RUN npm config set sass_binary_site https://npmmirror.com/mirrors/node-sass/
 
 # PNPM support
 # https://github.com/nodejs/corepack/issues/612
