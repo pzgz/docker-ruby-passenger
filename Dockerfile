@@ -35,7 +35,7 @@ ENV COREPACK_INTEGRITY_KEYS='{"npm":[{"expires":"2025-01-29T00:00:00.000Z","keyi
 SHELL ["/bin/bash", "-c"]
 RUN npm install -g --force pnpm@latest-10 \
     && SHELL=bash pnpm setup \
-    && source /root/.bashrc
+    && source /root/.bashrc \
     && pnpm install turbo --global
 
 # Fixing the stupid missing node-sass vendor directory error
