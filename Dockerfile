@@ -115,5 +115,8 @@ WORKDIR /home/app
 RUN mkdir /etc/service/sidekiq
 ADD sidekiq.sh /etc/service/sidekiq/run
 
+# Trust all git repositories to avoid errors might happen: `detected dubious ownership in repository at`
+RUN git config --global --add safe.directory '*'
+
 # Fix issue: https://github.com/travis-ci/travis-ci/issues/8978
 # RUN gem install bundler
