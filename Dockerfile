@@ -1,4 +1,4 @@
-FROM phusion/passenger-customizable:3.1.0
+FROM ghcr.io/pzgz/passenger-customizable:3.1.4-amd64
 
 # Set correct environment variables.
 ENV HOME /root
@@ -19,7 +19,7 @@ RUN apt-get update --assume-yes && apt-get install --assume-yes build-essential 
 RUN /pd_build/nodejs.sh 22
 
 # Ruby support
-RUN /pd_build/ruby-3.3.6.sh
+RUN /pd_build/ruby-3.4.5.sh
 
 # Yarn support
 # RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -  && \
