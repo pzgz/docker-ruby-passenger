@@ -16,7 +16,17 @@ RUN apt-get update --assume-yes && apt-get install --assume-yes build-essential 
 # RUN rm /tmp/buildconfig
 # RUN rm /tmp/nodejs.sh
 # RUN /pd_build/nodejs.sh 18
-RUN /pd_build/nodejs.sh 22
+# Workaround: nodesource's nodejs 22.22.2 ships a broken bundled npm (missing
+# promise-retry), which makes `npm update npm -g` inside nodejs.sh fail. If
+# that happens, reinstall npm from the registry and finish the remaining
+# setup steps that nodejs.sh skipped.
+RUN /pd_build/nodejs.sh 22 || ( \
+        rm -rf /usr/lib/node_modules/npm \
+        && curl -fsSL https://registry.npmjs.org/npm/-/npm-11.14.1.tgz | tar -xz -C /tmp \
+        && mv /tmp/package /usr/lib/node_modules/npm \
+        && ([ -e /usr/bin/node ] || ln -s /usr/bin/nodejs /usr/bin/node) \
+        && corepack enable \
+    )
 
 # Ruby support
 RUN /pd_build/ruby-3.4.8.sh
