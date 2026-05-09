@@ -31,6 +31,10 @@ RUN /pd_build/nodejs.sh 22 || ( \
 # Ruby support
 RUN /pd_build/ruby-3.4.8.sh
 
+# Default Ruby in passenger-docker 3.1.6 is 4.0.1; pin it back to 3.4.8.
+# https://github.com/phusion/passenger-docker/tree/rel-3.1.6#selecting-a-default-ruby-version
+RUN bash -lc 'rvm --default use ruby-3.4.8'
+
 # Yarn support
 # RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -  && \
 #     echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list  && \
